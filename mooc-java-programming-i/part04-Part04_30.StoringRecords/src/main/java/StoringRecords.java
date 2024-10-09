@@ -23,8 +23,25 @@ public class StoringRecords {
     public static ArrayList<Person> readRecordsFromFile(String file) {
         ArrayList<Person> persons = new ArrayList<>();
 
-        // Write here the code for reading from file
-        // and printing the read records
+        try (Scanner fileReader = new Scanner(Paths.get(file))) {
+
+            // we read the file until all lines have been read
+            while (fileReader.hasNextLine()) {
+
+                String lineInfo = fileReader.nextLine();
+                if (lineInfo.isEmpty()) {
+                    continue;
+                }
+
+                String[] parts = lineInfo.split(",");
+
+                Person person1 = new Person(parts[0], Integer.valueOf(parts[1]));
+                persons.add(person1);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
         return persons;
 
     }
